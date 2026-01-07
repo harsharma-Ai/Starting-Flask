@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Math App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Math Operations</h1>
+    <form id="mathForm">
+        <label for="num1">First Number:</label>
+        <input type="number" id="num1" name="num1" required>
+
+        <label for="num2">Second Number:</label>
+        <input type="number" id="num2" name="num2" required>
+
+        <label for="operation">Choose Operation:</label>
+        <select id="operation" name="operation">
+            <option value="sum">Addition</option>
+            <option value="sub">Subtraction</option>
+            <option value="mul">Multiplication</option>
+            <option value="div">Division</option>
+        </select>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById('mathForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+            const operation = document.getElementById('operation').value;
+
+            try {
+                const response = await fetch(`/${operation}?num1=${num1}&num2=${num2}`);
+                const result = await response.text();
+                document.getElementById('result').textContent = `Result: ${result}`;
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error fetching result.';
+            }
+        });
+    </script>
+</body>
+</html>
