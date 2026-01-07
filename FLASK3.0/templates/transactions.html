@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction List</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #74ebd5, #9face6);
+            color: #2c3e50;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #34495e;
+            font-size: 2em;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: #2980b9;
+        }
+
+        .card p {
+            margin: 8px 0;
+            font-size: 1em;
+        }
+
+        .actions {
+            margin-top: 15px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+
+        .add-btn {
+            display: block;
+            text-align: center;
+            margin: 40px auto 0;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            width: fit-content;
+            transition: background 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h2>All Transactions</h2>
+    <div class="container">
+        {% for transaction in transactions %}
+        <div class="card">
+            <h3>Transaction #{{ transaction.id }}</h3>
+            <p><strong>Date:</strong> {{ transaction.date }}</p>
+            <p><strong>Amount:</strong> ₹{{ transaction.amount }}</p>
+            <div class="actions">
+                <a href="{{ url_for('edit_transaction', transaction_id=transaction.id) }}">Edit</a>
+                <a href="{{ url_for('delete_transaction', transaction_id=transaction.id) }}">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="add-btn" href="{{ url_for('add_transaction') }}">➕ Add New Transaction</a>
+</body>
+</html>
